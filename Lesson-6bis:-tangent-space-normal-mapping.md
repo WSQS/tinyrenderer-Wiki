@@ -28,7 +28,7 @@ Let us finish with the motivation section and go straight ahead to the computati
 
 Okay, here is the [starting point](https://github.com/ssloy/tinyrenderer/tree/e30ff353121460557e29dced5708652171dbc7d2). The shader is really simple, it is Phong shading.
 
-```
+```C++
 struct Shader : public IShader {
     mat<2,3,float> varying_uv;  // triangle uv coordinates, written by the vertex shader, read by the fragment shader
     mat<3,3,float> varying_nrm; // normal per vertex to be interpolated by FS
@@ -122,7 +122,7 @@ So, Darboux basis is a triplet of vectors (i,j,n), where n - is the original nor
 
 All is quite straightforward, I compute the matrix A:
 
-```
+```C++
         mat<3,3,float> A;
         A[0] = ndc_tri.col(1) - ndc_tri.col(0);
         A[1] = ndc_tri.col(2) - ndc_tri.col(0);
@@ -131,7 +131,7 @@ All is quite straightforward, I compute the matrix A:
 
 Then compute two unknown vectors (i,j) of Darboux basis:
 
-```
+```C++
         mat<3,3,float> AI = A.invert();
         Vec3f i = AI * Vec3f(varying_uv[0][1] - varying_uv[0][0], varying_uv[0][2] - varying_uv[0][0], 0);
         Vec3f j = AI * Vec3f(varying_uv[1][1] - varying_uv[1][0], varying_uv[1][2] - varying_uv[1][0], 0);
